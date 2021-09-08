@@ -1,10 +1,23 @@
 import express from 'express';
-import * as profitTrailer from './profitTrailer';
+import { ProfitTrailer } from './profitTrailer';
+import config from '../config.json';
+import { Discord } from './discord';
 
 const app = express()
-const port = 3000
+const port = config.port;
 
+let profitTrailer: ProfitTrailer;
+let discord: Discord;
 
+const ptLoaded = (pt: ProfitTrailer) => {
+  console.info('pt reported it loaded!');
+  discord = new Discord(pt);
+  discord.start();
+}
+
+const init = () => {
+  profitTrailer = new ProfitTrailer(ptLoaded);
+}
 app.use('/', express.static('public'))
 
 app.get('/getpositions', async (req: any, res: any) => {
@@ -16,3 +29,5 @@ app.get('/getpositions', async (req: any, res: any) => {
 app.listen(port, () => {
   console.log(`Example app listening at http://localhost:${port}`)
 })
+
+init();
