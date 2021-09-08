@@ -1,5 +1,5 @@
+import { Client, DMChannel, Intents, Interaction, Message } from 'discord.js';
 import { ProfitTrailer } from "./profitTrailer";
-import { Channel, Client, DMChannel, Intents, Interaction, Message } from 'discord.js';
 
 export class Discord {
     private pt: ProfitTrailer;
