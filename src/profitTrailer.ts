@@ -1,10 +1,11 @@
 
 import sqlite3 from 'sqlite3';
+import config from '../config.json';
 
 const sql = sqlite3.verbose();
 export const getPositions = () => {
     return new Promise((resolve: any, reject: any) => {
-        const db = new sql.Database('/var/opt/bots/1.Binance/data/ptdb.db', sqlite3.OPEN_READWRITE, (err: any) => {
+        const db = new sql.Database(`${config.profitTrailerInstallationFolder}/data/ptdb.db`, sqlite3.OPEN_READWRITE, (err: any) => {
             if (err) {
                 console.error(err.message);
             }
