@@ -34,8 +34,8 @@ export class Discord {
     handleMessage = (message: Message) => {
         if (message.author.id !== this.client.user.id) {
             switch (message.content.toLowerCase()) {
-                case '/test':
-
+                case 'ping':
+                    message.reply('pong');
                     break;
             }
         }
