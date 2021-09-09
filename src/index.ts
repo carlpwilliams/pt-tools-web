@@ -26,6 +26,12 @@ app.get('/getpositions', async (req: any, res: any) => {
   res.send(positions);
 })
 
+app.get('/durations', async (req: any, res: any) => {
+  console.info('get trade times');
+  const positions: any = await profitTrailer.getTradeDurations();
+  res.send(positions);
+})
+
 app.listen(port, () => {
   console.log(`Example app listening at http://localhost:${port}`)
 })

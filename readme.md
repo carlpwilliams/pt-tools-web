@@ -19,7 +19,7 @@ ___
 
 <li> Run pt-tools with pm2</li>
 
-     sudo pm2 start index.js --name= pt-tools-web
+     sudo pm2 start npm --name "pt-tools-web" -- start
      
 </ol>
 Visit your bot url with the port 1501 (or the port specified in config)

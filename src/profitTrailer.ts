@@ -56,6 +56,29 @@ export class ProfitTrailer {
         })
     }
 
+    getTradeDurations(): Promise<any> {
+        return new Promise((resolve: any, reject: any) => {
+            this.connect();
+            this.db.serialize(() => {
+                this.db.all(`
+                        select  phe.CURRENCY_PAIR,
+                            (phe.SOLD_DATE - phe.FIRST_BOUGHT_DATE )/1000/60 AS trade_duration_mins,
+                            datetime(ROUND(phe.first_bought_date / 1000), 'unixepoch') AS firstbought,
+                            datetime(ROUND(phe.sold_date / 1000), 'unixepoch') AS sold_date_unix
+                        from position_history_entity PHE where phe.history_type='SELL_HISTORY' ORDER BY 1,3
+                `, (err: any, data: any) => {
+                    if (err) {
+                        reject(err);
+                    }
+                    resolve(data)
+                });
+            });
+            this.disconnect();
+        })
+    }
+
+
+
     getSettings(): Promise<any> {
         return new Promise((resolve: any, reject: any) => {
             this.connect();
