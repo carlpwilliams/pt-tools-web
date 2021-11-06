@@ -1,6 +1,7 @@
 
 import sqlite3 from 'sqlite3';
 import config from '../config.json';
+import * as queries from './dbQueries';
 
 const sql = sqlite3.verbose();
 
@@ -86,6 +87,25 @@ export class ProfitTrailer {
                 this.db.all(`SELECT * from setting_entity`, (err: any, settings: any) => {
                     if (err) {
                         console.info('could not get settings from PT DB');
+                        reject(err);
+                    }
+                    for (const setting of settings) {
+                        this.settings[setting.name] = setting.value;
+                    }
+                    resolve(this.settings);
+                });
+            });
+            this.disconnect();
+        });
+    }
+
+    prepareStats(): Promise<any> {
+        return new Promise((resolve: any, reject: any) => {
+            this.connect();
+            this.db.serialize(() => {
+                this.db.all(queries.prepareStats, (err: any, settings: any) => {
+                    if (err) {
+                        console.info('could not prep db');
                         reject(err);
                     }
                     for (const setting of settings) {
